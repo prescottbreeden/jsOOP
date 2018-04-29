@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <title>Ninja Class I</title>
+    </head>
+    <body>
+        <h1>Ninja Class I</h1>
+        <p>use console to inspect object</p>
+
+
+<script>
+    class Ninja {
+        constructor(name,health=100) {
+            let speed = 3;
+            let strength = 3;
+            this.name = name;
+            this.health = health;
+
+            function gainHealth() {
+                health += 10
+            }
+            function takeDamage(num) {
+                health -= num;
+            }
+            this.sayName = () => {
+                console.log(this.name);
+            }
+            this.showStats = () => {
+                console.log(`Name: ${this.name}`);
+                console.log(`Speed: ${speed}`);
+                console.log(`Strength: ${strength}`);
+                console.log(`Health: ${health}`)
+            }
+            this.drinkSake = () => {
+                gainHealth();
+
+                return this;
+            }
+            this.loseHealth = (num) => {
+                takeDamage(num);
+
+                return this;
+            }
+            this.punch = (target) => {
+                if(Object.getPrototypeOf(target) === Ninja.prototype) {
+                    target.loseHealth(5);
+                    console.log(`${target.name} was punched by ${this.name} and lost 5 Health!`)
+                }
+                else {
+                    console.log(`${target.name} is not a ninja`)
+                }
+            }
+            this.kick = (target) => {
+                if(Object.getPrototypeOf(target) === Ninja.prototype) {
+                    target.loseHealth(15*strength);
+                    console.log(`${target.name} was kicked by ${this.name} and lost ${15*strength} Health!`)
+                }
+                else {
+                    console.log(`${target.name} is not a ninja`)
+                }
+            }
+        }
+    }
+    class Kitten {
+        constructor (name) {
+            this.name = name
+
+            this.meow = () => {
+                console.log("Meow...")
+            }
+        }
+    }
+    class Sensei extends Ninja {
+        constructor(name, health=200){
+            super(name, health)
+            let wisdom = 10;
+            this.strength = 10;
+            this.speed = 10;
+
+            this.speakWisdom = () => {
+                this.drinkSake();
+                console.log("What one programmer can do in one month, two programmers can do in two months.")
+            }
+
+        }
+    }
+
+    const cat = new Kitten("Mittens")
+    const ninja1 = new Ninja("Hyabusa");
+    ninja1.sayName();
+    ninja1.showStats();
+
+    ninja1.drinkSake().drinkSake().drinkSake().showStats();
+    const blueNinja = new Ninja("Goemon");
+    const redNinja = new Ninja("Bill Gates");
+    redNinja.punch(blueNinja);
+    redNinja.punch(blueNinja);
+    redNinja.punch(blueNinja);
+    redNinja.punch(blueNinja);
+    redNinja.punch(blueNinja);
+    blueNinja.showStats();
+
+    blueNinja.kick(redNinja);
+    redNinja.showStats();
+
+    redNinja.kick(cat);
+    blueNinja.punch(cat);
+    cat.meow();
+
+    const superSensei = new Sensei("Master Splinter");
+    superSensei.speakWisdom();
+    superSensei.showStats();
+
+</script>
+
+    </body>
+</html>

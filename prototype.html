@@ -1,0 +1,74 @@
+<html>
+    <body>
+        <h1>prototype notes</h1>
+        <p>open console to analyze objects</p>
+<script>
+    /*
+
+:...............................:
+:                               :
+:           Prototype           :
+:                               :
+:...............................:
+
+*/
+
+class MyObjConstructor {
+    constructor(name) {
+        const myPrivateVar = "Hello";
+        this.name = name;
+        this.method = function() {
+            console.log("I am a method");
+        };
+    }
+}
+const obj1 = new MyObjConstructor('object1');
+const obj2 = new MyObjConstructor('object2');
+console.log(obj1);
+
+obj1.newProperty = "newProperty!";
+obj1.__proto__.anotherProperty = "anotherProperty!";
+console.log(obj1.anotherProperty); // anotherProperty!
+console.log(obj1.newProperty); // newProperty!
+// What about obj2?
+console.log(obj2.newProperty); // undefined
+console.log(obj2.anotherProperty); // anotherProperty! <= THIS IS THE COOL PART!
+
+// After we create our MyObjConstructor:
+MyObjConstructor.prototype.correctWay = function() {
+    console.log("This is the correct way to add a prototype")
+}
+obj1.correctWay();
+
+
+class Car {
+    constructor(make, model){
+        let odometer = 0;
+        this.make = make;
+        this.model = model;
+
+        function updateOdometer(distance) {
+            odometer += distance;
+        };
+
+        this.readOdometer = function() {
+            return odometer;
+        }
+
+        this.drive = function(distance) {
+            updateOdometer(distance);
+            return this;
+        }
+    }
+}
+
+const myCarInstance = new Car("Chevy", "Camaro");
+// by returning this, we can chain drive()
+myCarInstance.drive(50).drive(90); 
+// but we can read it with our getter function
+console.log(myCarInstance.readOdometer());
+
+
+</script>
+    </body>
+</html>
